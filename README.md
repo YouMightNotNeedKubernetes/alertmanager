@@ -1,4 +1,4 @@
-# promstack
+# alertmanager
 A high-availability alertmanager stack for Docker Swarm
 
 ## Getting Started
