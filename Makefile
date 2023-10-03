@@ -1,4 +1,4 @@
-docker_stack_name = promstack
+docker_stack_name = alertmanager
 
 
 it:
