@@ -25,7 +25,7 @@ x-default-logging: &x-default-logging
 
 configs:
   alertmanager.yml:
-    name: alertmanager-v1.1.yml
+    name: alertmanager-v1.0.yml
     file: configs/alertmanager.yml
 
 services:
