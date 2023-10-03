@@ -1,0 +1,63 @@
+x-deploy-policy: &x-deploy-policy
+  replicas: 3
+  placement:
+    constraints:
+      - node.role == manager
+  update_config:
+    parallelism: 1
+    delay: 30s
+    order: stop-first
+    failure_action: rollback
+  rollback_config:
+    parallelism: 1
+    delay: 30s
+  restart_policy:
+    condition: on-failure
+    delay: 30s
+    max_attempts: 3
+    window: 120s
+
+x-default-logging: &x-default-logging
+  options:
+    max-size: "12m"
+    max-file: "5"
+  driver: json-file
+
+configs:
+  alertmanager.yml:
+    name: alertmanager-v1.1.yml
+    file: configs/alertmanager.yml
+
+services:
+  alertmanager:
+    image: prom/alertmanager:latest
+    hostname: alertmanager-{{.Task.Slot}}-{{.Task.ID}}
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager"
+      - "--cluster.listen-address=0.0.0.0:9094"
+      - "--cluster.advertise-address=:9094"
+      - "--cluster.peer=alertmanager:9094"
+    networks:
+      - dockerswarm_monitoring
+    ports:
+      - 9093:9093
+    volumes:
+      - alertmanager:/alertmanager
+    configs:
+      - source: alertmanager.yml
+        target: /etc/alertmanager/alertmanager.yml
+    deploy: 
+      <<: *x-deploy-policy
+      labels:
+        io.prometheus.job: "alertmanager"
+    logging: *x-default-logging
+
+volumes:
+  alertmanager:
+    name: alertmanager-{{.Task.Slot}}
+
+networks:
+  dockerswarm_monitoring:
+    name: dockerswarm_monitoring
+    external: true
