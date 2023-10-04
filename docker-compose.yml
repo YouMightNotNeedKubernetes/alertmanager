@@ -1,5 +1,5 @@
 x-deploy-policy: &x-deploy-policy
-  replicas: 2
+  replicas: 3
   placement:
     constraints:
       - node.role == manager
