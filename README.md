@@ -27,3 +27,14 @@ To destroy the stack, run the following command:
 ```sh
 $ make destroy
 ```
+
+## Troubleshooting
+
+### Sending test alert
+
+You can send a test alert to the alertmanager by running the following command:
+
+```sh
+# Replace 127.0.0.1 with the IP address of the alertmanager service
+curl -H 'Content-Type: application/json' -d '[{"labels":{"alertname":"myalert"}}]' http://127.0.0.1:9093/api/v1/alerts
+```
