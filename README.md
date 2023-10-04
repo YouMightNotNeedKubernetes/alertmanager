@@ -16,7 +16,9 @@ Please make a copy as `configs/alertmanager.yml`, and add any additional configu
 
 This stack is designed to be highly available.
 
-By default, it will deploy 2 replicas of Alertmanager. Having more than 2 replicas is way too much for a small cluster.  
+![image](https://github.com/YouMightNotNeedKubernetes/alertmanager/assets/4363857/af22bf22-affa-42b0-8c8a-8a93ae667ef3)
+
+By default, it will deploy 3 replicas of Alertmanager. Having more than 3 replicas is way too much for a small cluster.  
 If you want to change the number of replicas, you can do so by changing the `replicas` value in the `docker-compose.yml` file.
 
 ## Deployment
