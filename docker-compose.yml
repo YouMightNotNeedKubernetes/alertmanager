@@ -1,5 +1,5 @@
 x-deploy-policy: &x-deploy-policy
-  replicas: 3
+  replicas: 2
   placement:
     constraints:
       - node.role == manager
@@ -40,7 +40,6 @@ services:
       - "--cluster.advertise-address=:9094"
       - "--cluster.peer=alertmanager-1:9094"
       - "--cluster.peer=alertmanager-2:9094"
-      - "--cluster.peer=alertmanager-3:9094"
       - "--cluster.reconnect-timeout=5m"
     networks:
       - dockerswarm_monitoring

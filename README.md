@@ -12,6 +12,13 @@ $ docker network create --driver overlay --attachable dockerswarm_monitoring
 We provided a base configuration file for Prometheus & Alertmanager. You can find it in the `config` folder.  
 Please make a copy as `configs/alertmanager.yml`, and add any additional configuration you need.
 
+## High Availability
+
+This stack is designed to be highly available.
+
+By default, it will deploy 2 replicas of Alertmanager. Having more than 2 replicas is way too much for a small cluster.  
+If you want to change the number of replicas, you can do so by changing the `replicas` value in the `docker-compose.yml` file.
+
 ## Deployment
 
 To deploy the stack, run the following command:
