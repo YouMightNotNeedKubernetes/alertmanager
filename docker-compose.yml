@@ -46,7 +46,6 @@ services:
       - dockerswarm_monitoring
     ports:
       - 9093:9093
-      - 9094:9094
     volumes:
       - alertmanager:/alertmanager
     configs:
