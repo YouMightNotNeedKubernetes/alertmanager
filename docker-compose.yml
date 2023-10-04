@@ -31,17 +31,22 @@ configs:
 services:
   alertmanager:
     image: prom/alertmanager:latest
-    hostname: alertmanager-{{.Task.Slot}}-{{.Task.ID}}
+    hostname: alertmanager-{{.Task.Slot}}
     command:
+      - "--log.level=info"
       - "--config.file=/etc/alertmanager/alertmanager.yml"
       - "--storage.path=/alertmanager"
       - "--cluster.listen-address=0.0.0.0:9094"
       - "--cluster.advertise-address=:9094"
-      - "--cluster.peer=alertmanager:9094"
+      - "--cluster.peer=alertmanager-1:9094"
+      - "--cluster.peer=alertmanager-2:9094"
+      - "--cluster.peer=alertmanager-3:9094"
+      - "--cluster.reconnect-timeout=5m"
     networks:
       - dockerswarm_monitoring
     ports:
       - 9093:9093
+      - 9094:9094
     volumes:
       - alertmanager:/alertmanager
     configs:
