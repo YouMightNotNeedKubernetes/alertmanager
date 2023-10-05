@@ -38,9 +38,10 @@ services:
       - "--storage.path=/alertmanager"
       - "--cluster.listen-address=0.0.0.0:9094"
       - "--cluster.advertise-address=:9094"
+      - "--cluster.reconnect-timeout=5m"
       - "--cluster.peer=alertmanager-1:9094"
       - "--cluster.peer=alertmanager-2:9094"
-      - "--cluster.reconnect-timeout=5m"
+      - "--cluster.peer=alertmanager-3:9094"
     networks:
       - dockerswarm_monitoring
     ports:
