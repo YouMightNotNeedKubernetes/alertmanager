@@ -5,7 +5,7 @@ A high-availability alertmanager stack for Docker Swarm
 
 As a recommendation, you should only have Alertmanager deployed per Docker Swarm Cluster.
 
-Before you can deploy MinIO, you need to carefully plan your deployment.
+Before you start, you need to carefully plan your deployment.
 - Consider how many instances you want to deploy.
 - Node placement for each instance.
 - etc...
