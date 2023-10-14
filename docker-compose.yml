@@ -4,6 +4,7 @@ x-deploy: &x-deploy-default
     max_replicas_per_node: 1
     constraints:
       - node.role == manager
+      - node.labels.alertmanager == true
     preferences:
       - spread: node.labels.alertmanager
   labels:
