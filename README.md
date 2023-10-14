@@ -43,10 +43,11 @@ On the manager node, run the following command to add the label to the node.
 
 Repeat this step for each node you want to deploy the service to. Make sure that the number of node updated matches the number of replicas you want to deploy.
 
-**Example deploy service with 2 replicas**:
+**Example deploy service with 3 replicas**:
 ```sh
 docker node update --label-add alertmanager=true <node-1>
 docker node update --label-add alertmanager=true <node-2>
+docker node update --label-add alertmanager=true <node-3>
 ```
 
 ## Deployment
