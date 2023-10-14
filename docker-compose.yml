@@ -1,8 +1,13 @@
-x-deploy-policy: &x-deploy-policy
+x-deploy: &x-deploy-default
   replicas: 3
   placement:
+    max_replicas_per_node: 1
     constraints:
       - node.role == manager
+    preferences:
+      - spread: node.labels.alertmanager
+  labels:
+    io.prometheus.job: "alertmanager"
   update_config:
     parallelism: 1
     delay: 30s
@@ -17,7 +22,7 @@ x-deploy-policy: &x-deploy-policy
     max_attempts: 3
     window: 120s
 
-x-default-logging: &x-default-logging
+x-logging: &x-logging-default
   options:
     max-size: "12m"
     max-file: "5"
@@ -51,15 +56,12 @@ services:
     configs:
       - source: alertmanager.yml
         target: /etc/alertmanager/alertmanager.yml
-    deploy: 
-      <<: *x-deploy-policy
-      labels:
-        io.prometheus.job: "alertmanager"
-    logging: *x-default-logging
+    deploy: *x-deploy-default
+    logging: *x-logging-default
 
 volumes:
   alertmanager:
-    name: alertmanager-{{.Task.Slot}}
+    external: true
 
 networks:
   dockerswarm_monitoring:
