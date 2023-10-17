@@ -5,7 +5,7 @@ it:
 
 .PHONY: configs
 configs:
-	test -f "configs/alertmanager.yml" || cp configs/alertmanager.base.yml configs/alertmanager.yml
+	test -f "configs/alertmanager.yml" || cp configs/alertmanager.default.yml configs/alertmanager.yml
 
 deploy: configs
 	docker stack deploy -c docker-compose.yml $(docker_stack_name)
