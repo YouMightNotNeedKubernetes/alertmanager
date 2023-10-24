@@ -9,6 +9,7 @@ x-deploy: &x-deploy-default
       - spread: node.labels.alertmanager
   labels:
     io.prometheus.enable: "true"
+    io.prometheus.job: "alertmanager"
   update_config:
     parallelism: 1
     delay: 30s
