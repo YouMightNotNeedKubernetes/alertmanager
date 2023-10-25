@@ -1,5 +1,5 @@
 x-deploy: &x-deploy-default
-  replicas: 3
+  replicas: ${ALERTMANAGER_REPLICAS:-3}
   placement:
     max_replicas_per_node: 1
     constraints:
@@ -7,8 +7,6 @@ x-deploy: &x-deploy-default
       - node.labels.alertmanager == true
     preferences:
       - spread: node.labels.alertmanager
-  labels:
-    io.prometheus.job: "alertmanager"
   update_config:
     parallelism: 1
     delay: 30s
@@ -29,15 +27,23 @@ x-logging: &x-logging-default
     max-file: "5"
   driver: json-file
 
+networks:
+  dockerswarm_monitoring:
+    name: dockerswarm_monitoring
+    external: true
+
+volumes:
+  alertmanager:
+    external: true
+
 configs:
   alertmanager.yml:
-    name: alertmanager-v1.0.yml
     file: configs/alertmanager.yml
 
 services:
   alertmanager:
-    image: prom/alertmanager:latest
-    hostname: alertmanager-{{.Task.Slot}}
+    image: prom/alertmanager:${ALERTMANAGER_VERSION:-latest}
+    hostname: alertmanager-{{.Task.Slot}}-{{.Task.ID}}
     command:
       - "--log.level=info"
       - "--config.file=/etc/alertmanager/alertmanager.yml"
@@ -51,7 +57,7 @@ services:
     networks:
       - dockerswarm_monitoring
     ports:
-      - 9093:9093
+      - ${ALERTMANAGER_PORT:-9093}:9093
     volumes:
       - alertmanager:/alertmanager
     configs:
@@ -59,12 +65,3 @@ services:
         target: /etc/alertmanager/alertmanager.yml
     deploy: *x-deploy-default
     logging: *x-logging-default
-
-volumes:
-  alertmanager:
-    external: true
-
-networks:
-  dockerswarm_monitoring:
-    name: dockerswarm_monitoring
-    external: true
