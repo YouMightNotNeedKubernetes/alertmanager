@@ -48,7 +48,7 @@ configs:
 services:
   alertmanager:
     image: prom/alertmanager:${ALERTMANAGER_VERSION:-latest}
-    hostname: alertmanager-{{.Task.Slot}}-{{.Task.ID}}
+    hostname: alertmanager-{{.Task.Slot}}
     command:
       - "--log.level=info"
       - "--config.file=/etc/alertmanager/alertmanager.yml"
@@ -60,8 +60,8 @@ services:
       - "--cluster.peer=alertmanager-2:9094"
       - "--cluster.peer=alertmanager-3:9094"
     networks:
-      - dockerswarm_monitoring
       - prometheus_agents
+      - dockerswarm_monitoring
     ports:
       - ${ALERTMANAGER_PORT:-9093}:9093
     volumes:
