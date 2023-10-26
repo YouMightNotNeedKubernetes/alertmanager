@@ -30,11 +30,11 @@ x-logging: &x-logging-default
   driver: json-file
 
 networks:
+  prometheus:
+    name: prometheus
+    external: true
   dockerswarm_monitoring:
     name: dockerswarm_monitoring
-    external: true
-  prometheus_agents:
-    name: prometheus_agents
     external: true
 
 volumes:
@@ -60,7 +60,7 @@ services:
       - "--cluster.peer=alertmanager-2:9094"
       - "--cluster.peer=alertmanager-3:9094"
     networks:
-      - prometheus_agents
+      - prometheus
       - dockerswarm_monitoring
     ports:
       - ${ALERTMANAGER_PORT:-9093}:9093
