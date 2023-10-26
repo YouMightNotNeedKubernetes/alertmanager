@@ -7,6 +7,8 @@ x-deploy: &x-deploy-default
       - node.labels.alertmanager == true
     preferences:
       - spread: node.labels.alertmanager
+  labels:
+    io.prometheus.enable: "true"
   update_config:
     parallelism: 1
     delay: 30s
@@ -30,6 +32,9 @@ x-logging: &x-logging-default
 networks:
   dockerswarm_monitoring:
     name: dockerswarm_monitoring
+    external: true
+  prometheus_agents:
+    name: prometheus_agents
     external: true
 
 volumes:
@@ -56,6 +61,7 @@ services:
       - "--cluster.peer=alertmanager-3:9094"
     networks:
       - dockerswarm_monitoring
+      - prometheus_agents
     ports:
       - ${ALERTMANAGER_PORT:-9093}:9093
     volumes:
