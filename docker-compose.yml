@@ -8,8 +8,11 @@ x-deploy: &x-deploy-default
     preferences:
       - spread: node.labels.alertmanager
   labels:
+    # Prometheus
     io.prometheus.enabled: "true"
     io.prometheus.job: "alertmanager"
+    # Promtail
+    io.promtail.enabled: "true"
   update_config:
     parallelism: 1
     delay: 30s
